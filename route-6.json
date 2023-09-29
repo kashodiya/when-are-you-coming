@@ -1,0 +1,52 @@
+{
+    "?xml": {
+        "@version": "1.0",
+        "@encoding": "utf-8"
+    },
+    "root": {
+        "uri": {
+            "#cdata-section": "http://api.bart.gov/api/route.aspx?cmd=routeinfo&route=6&json=y"
+        },
+        "routes": {
+            "route": {
+                "name": "Daly City to Berryessa/North San Jose",
+                "abbr": "DALY-BERY",
+                "routeID": "ROUTE 6",
+                "number": "6",
+                "origin": "DALY",
+                "destination": "BERY",
+                "direction": "North",
+                "hexcolor": "#FF9933",
+                "color": "GREEN",
+                "num_stns": "22",
+                "config": {
+                    "station": [
+                        "DALY",
+                        "BALB",
+                        "GLEN",
+                        "24TH",
+                        "16TH",
+                        "CIVC",
+                        "POWL",
+                        "MONT",
+                        "EMBR",
+                        "WOAK",
+                        "LAKE",
+                        "FTVL",
+                        "COLS",
+                        "SANL",
+                        "BAYF",
+                        "HAYW",
+                        "SHAY",
+                        "UCTY",
+                        "FRMT",
+                        "WARM",
+                        "MLPT",
+                        "BERY"
+                    ]
+                }
+            }
+        },
+        "message": null
+    }
+}

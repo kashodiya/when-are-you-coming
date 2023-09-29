@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>DevOps Viewer Portal</title>
+    <title>When are you coming?</title>
     <!-- Icon names are here: https://pictogrammers.github.io/@mdi/font/2.0.46/ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
@@ -39,6 +39,8 @@
         <div>
             <h1>When are you coming?</h1>
             LatLng = {{latLng}}
+            <hr>
+            {{plans}}
         </div>
     </template>
 
@@ -51,10 +53,10 @@
                     When are you coming?
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn href="api-docs/" target="_blank" icon>
+                <!-- <v-btn href="api-docs/" target="_blank" icon>
                     <v-icon>mdi-format-list-bulleted-type</v-icon>
                     <v-tooltip activator="parent" location="bottom">Swagger UI</v-tooltip>
-                </v-btn>
+                </v-btn> -->
             </v-app-bar>
             <v-main>
                 <v-container fluid>
