@@ -36,12 +36,19 @@
     </template>
 
     <template id="home-template">
-        <div>
-            <h1>When are you coming?</h1>
-            LatLng = {{latLng}}
-            <hr>
-            {{plans}}
-        </div>
+        <v-card>
+            <v-card-title class="text-h5">
+                Plans
+            </v-card-title>
+            <!-- LatLng = {{latLng}} -->
+            <v-card-text>
+                <li v-for="plan in plans">
+                    {{plan.fromStnId}} ({{plan.departTime}}) - {{plan.toStnId}} ({{plan.arriveTime}}) -
+                    {{plan.line}}
+                </li>
+            </v-card-text>
+
+        </v-card>
     </template>
 
 
