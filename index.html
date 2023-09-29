@@ -1,11 +1,80 @@
+<!-- (Internal FR - Source Code) -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>DevOps Viewer Portal</title>
+    <!-- Icon names are here: https://pictogrammers.github.io/@mdi/font/2.0.46/ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@3.1.5/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <style>
+    </style>
 </head>
+
 <body>
-    <h1>When are you coming?</h1>
+    <!-- Use Bar as a template to create a new component  
+    <template id="bar-template">
+        <div>
+            <h2>This is bar</h2>
+        </div>
+    </template>
+    -->
+
+    <template id="about-template">
+        <div>
+            <v-card>
+                <v-card-title class="text-h5">
+                    About DevOps Portal
+                </v-card-title>
+                <v-card-text>
+                    TODO...
+                </v-card-text>
+            </v-card>
+        </div>
+    </template>
+
+    <template id="home-template">
+        <div>
+            <h1>When are you coming?</h1>
+            LatLng = {{latLng}}
+        </div>
+    </template>
+
+
+    <div id="app">
+        <v-app>
+            <v-app-bar app color="deep-purple accent-4" dark>
+                <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
+                <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
+                    When are you coming?
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn href="api-docs/" target="_blank" icon>
+                    <v-icon>mdi-format-list-bulleted-type</v-icon>
+                    <v-tooltip activator="parent" location="bottom">Swagger UI</v-tooltip>
+                </v-btn>
+            </v-app-bar>
+            <v-main>
+                <v-container fluid>
+                    <router-view></router-view>
+                </v-container>
+            </v-main>
+            <v-footer app>
+                When are you coming?
+            </v-footer>
+        </v-app>
+    </div>
+
+    <!--  Note that socket.io resource is loaded via nginx reverse proxy location. See /etc/nginx/nginx.conf -->
+    <!-- <script src="/devops-viewer/socket.io/socket.io.js"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.1.5/dist/vuetify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.min.js"></script>
+    <script src="main.js"></script>
+
 </body>
+
 </html>
