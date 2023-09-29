@@ -10,6 +10,12 @@
     <link href="https://cdn.jsdelivr.net/npm/vuetify@3.1.5/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <style>
+        .route6-plan{
+            color: red;
+        }
+        .other-plan{
+            color: grey;
+        }
     </style>
 </head>
 
@@ -42,7 +48,7 @@
             </v-card-title>
             <!-- LatLng = {{latLng}} -->
             <v-card-text>
-                <li v-for="plan in plans">
+                <li v-for="plan in plans" :class="plan.line == 'ROUTE 6' ? 'route6-plan' : 'other-plan'">
                     {{plan.fromStnId}} ({{plan.departTime}}) - {{plan.toStnId}} ({{plan.arriveTime}}) -
                     {{plan.line}}
                 </li>
