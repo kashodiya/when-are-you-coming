@@ -47,8 +47,19 @@
                     {{plan.line}}
                 </li>
             </v-card-text>
-
         </v-card>
+        <v-card>
+            <v-card-title class="text-h5">
+                Logs
+            </v-card-title>
+            <!-- LatLng = {{latLng}} -->
+            <v-card-text>
+                <li v-for="log in logs">
+                    {{log}}
+                </li>
+            </v-card-text>
+        </v-card>
+
     </template>
 
 

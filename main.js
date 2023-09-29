@@ -12,26 +12,35 @@ const Home = {
     data() {
         return {
             latLng: {},
-            plans: []
+            plans: [],
+            logs: []
         }
     },
     methods: {
     },
     mounted() {
+        this.logs.unshift('Getting lat long...')
         getLatLng((latLng, error) => {
             if (!error) {
+                this.logs.unshift('Found lat long: ' + latLng.lat + ', ' + latLng.lng)
                 this.latLng = latLng;
                 // let nextStationId, nearestStnId;
+                this.logs.unshift('Finding nearest and next station...')
                 const {nextStationId, nearestStnId} = findNearestStation(latLng.lat, latLng.lng);
                 console.log({nextStationId, nearestStnId});
+                this.logs.unshift('Finding plas from: ' + nextStationId);
                 planTrip(nextStationId, 'BERY', (plans) => {
                     console.log({plans});
                     this.plans.push(...plans);
                 });
+                this.logs.unshift('Finding plas from: ' + nearestStnId);
                 planTrip(nearestStnId, 'BERY', (plans) => {
                     console.log({plans});
                     this.plans.push(...plans);
                 });
+            }else{
+                this.logs.push('ERROR: Error getting lat long:')
+                this.logs.push(error);
             }
         });
     },
