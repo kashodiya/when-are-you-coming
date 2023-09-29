@@ -64,7 +64,10 @@ const About = {
 
 
 function getLatLng(cb) {
-    if (navigator.geolocation) {
+    if(document.location.href.indexOf('127.0.0.1') > -1){
+        console.log('Using fake lat long');
+        cb({ lat: 37.69691, lng: -122.12645 }, null);
+    }else if (navigator.geolocation) {
 
         // Call getCurrentPosition with success and error callbacks
         navigator.geolocation.getCurrentPosition(function (position) {
