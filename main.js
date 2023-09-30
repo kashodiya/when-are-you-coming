@@ -17,8 +17,21 @@ const Home = {
         }
     },
     methods: {
+        getTripPlan(stnId){
+            if(stnId == 'UCTY'){
+                this.logs.unshift('Skipping plan from: ' + stnId);
+            }else{
+                this.logs.unshift('Finding plas from: ' + stnId);
+                planTrip(stnId, 'BERY', (plans) => {
+                    console.log({plans});
+                    this.plans.push(...plans);
+                });
+            }
+        }
     },
     mounted() {
+    },
+    created() {
         this.logs.unshift('Getting lat long...')
         getLatLng((latLng, error) => {
             if (!error) {
@@ -28,23 +41,23 @@ const Home = {
                 this.logs.unshift('Finding nearest and next station...')
                 const {nextStationId, nearestStnId} = findNearestStation(latLng.lat, latLng.lng);
                 console.log({nextStationId, nearestStnId});
-                this.logs.unshift('Finding plas from: ' + nextStationId);
-                planTrip(nextStationId, 'BERY', (plans) => {
-                    console.log({plans});
-                    this.plans.push(...plans);
-                });
-                this.logs.unshift('Finding plas from: ' + nearestStnId);
-                planTrip(nearestStnId, 'BERY', (plans) => {
-                    console.log({plans});
-                    this.plans.push(...plans);
-                });
+                this.getTripPlan(nextStationId);
+                this.getTripPlan(nearestStnId);
+                // this.logs.unshift('Finding plas from: ' + nextStationId);
+                // planTrip(nextStationId, 'BERY', (plans) => {
+                //     console.log({plans});
+                //     this.plans.push(...plans);
+                // });
+                // this.logs.unshift('Finding plas from: ' + nearestStnId);
+                // planTrip(nearestStnId, 'BERY', (plans) => {
+                //     console.log({plans});
+                //     this.plans.push(...plans);
+                // });
             }else{
-                this.logs.push('ERROR: Error getting lat long:')
-                this.logs.push(error);
+                this.logs.unshift('ERROR: Error getting lat long:')
+                this.logs.unshift(error);
             }
         });
-    },
-    created() {
         console.log('Home created');
     }
 }
@@ -64,10 +77,11 @@ const About = {
 
 
 function getLatLng(cb) {
-    if(document.location.href.indexOf('127.0.0.1') > -1){
-        console.log('Using fake lat long');
-        cb({ lat: 37.69691, lng: -122.12645 }, null);
-    }else if (navigator.geolocation) {
+    // if(document.location.href.indexOf('127.0.0.1') > -1){
+    //     console.log('Using fake lat long');
+    //     cb({ lat: 37.69691, lng: -122.12645 }, null);
+    // }else 
+    if (navigator.geolocation) {
 
         // Call getCurrentPosition with success and error callbacks
         navigator.geolocation.getCurrentPosition(function (position) {
