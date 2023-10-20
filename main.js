@@ -356,8 +356,8 @@ async function getData() {
 
 
 (async () => {
-    initVue();
     await getData();
+    initVue();
 
     // console.log('Starting web-socket');
     // socket = io({
