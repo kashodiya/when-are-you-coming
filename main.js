@@ -313,10 +313,8 @@ function initVue() {
     const vuetify = createVuetify();
     const app = createApp({
         el: '#app',
-        async created() {
+        created() {
             console.log('Vue is created.');
-            
-            await getData();
         }
     });
 
@@ -359,8 +357,7 @@ async function getData() {
 
 (async () => {
     initVue();
-    // bart();
-    // await getData();
+    await getData();
 
     // console.log('Starting web-socket');
     // socket = io({
