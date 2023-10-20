@@ -18,16 +18,16 @@ const Home = {
         }
     },
     methods: {
-        log(msg){
+        log(msg) {
             this.sharedData.logs.unshift(msg);
         },
-        getTripPlan(stnId){
-            if(stnId == 'UCTY'){
+        getTripPlan(stnId) {
+            if (stnId == 'UCTY') {
                 this.log('Skipping plan from: ' + stnId);
-            }else{
+            } else {
                 this.log('Finding plas from: ' + stnId);
                 planTrip(stnId, 'BERY', (plans) => {
-                    console.log({plans});
+                    console.log({ plans });
                     this.plans.push(...plans);
                 });
             }
@@ -47,8 +47,8 @@ const Home = {
                 this.latLng = latLng;
                 // let nextStationId, nearestStnId;
                 this.log('Finding nearest and next station...');
-                const {nextStationId, nearestStnId} = findNearestStation(latLng.lat, latLng.lng);
-                console.log({nextStationId, nearestStnId});
+                const { nextStationId, nearestStnId } = findNearestStation(latLng.lat, latLng.lng);
+                console.log({ nextStationId, nearestStnId });
                 this.getTripPlan(nextStationId);
                 this.getTripPlan(nearestStnId);
                 // this.log('Finding plas from: ' + nextStationId);
@@ -61,7 +61,7 @@ const Home = {
                 //     console.log({plans});
                 //     this.plans.push(...plans);
                 // });
-            }else{
+            } else {
                 this.log('ERROR: Error getting lat long:')
                 this.log(error);
             }
@@ -130,8 +130,8 @@ function XXfindNextStation() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log({data});
-            
+            console.log({ data });
+
 
             // Get route plan 
             const plan = data.root.route;
@@ -216,7 +216,7 @@ function findNearestStation(lat, lng) {
     // Log next station details
     // console.log('Next Station: ' + nextStationId);
 
-    return {nearestStnId, nextStationId};
+    return { nearestStnId, nextStationId };
 
 }
 
@@ -343,12 +343,23 @@ async function getData() {
     console.log('Getting data...');
     sharedData.logs.unshift('Getting static data...');
 
-    let route6Resp = await (await fetch('/route-6.json')).json();
-    let stationsResp = await (await fetch('/stations.json')).json();
+    // let route6RespURL = '/route-6.json';
+    // let stationsRespURL = '/stations.json';
+    // if (window.location.hostname === 'localhost' ||
+    //     window.location.hostname === '127.0.0.1') {
+    //     route6RespURL = 'https://raw.githubusercontent.com/kashodiya/when-are-you-coming/main/route-6.json';
+    //     stationsRespURL = 'https://raw.githubusercontent.com/kashodiya/when-are-you-coming/main/stations.json';
+    // }
+
+    let route6RespURL = 'https://raw.githubusercontent.com/kashodiya/when-are-you-coming/main/route-6.json';
+    let stationsRespURL = 'https://raw.githubusercontent.com/kashodiya/when-are-you-coming/main/stations.json';
+
+    let route6Resp = await (await fetch(route6RespURL)).json();
+    let stationsResp = await (await fetch(stationsRespURL)).json();
     let route6StationIds = route6Resp.root.routes.route.config.station
     let stations = stationsResp.root.stations.station;
     sharedData.logs.unshift('Got stations static data.');
-    console.log({route6StationIds, stations });
+    console.log({ route6StationIds, stations });
     sharedData.stations = stations;
     sharedData.route6StationIds = route6StationIds;
 }
@@ -357,6 +368,7 @@ async function getData() {
 
 (async () => {
     await getData();
+
     initVue();
 
     // console.log('Starting web-socket');
