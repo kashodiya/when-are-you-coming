@@ -60,7 +60,8 @@
             </v-card-title>
             <!-- LatLng = {{latLng}} -->
             <v-card-text>
-                <li v-for="log in logs">
+                <!-- {{sharedData}} -->
+                <li v-for="log in sharedData.logs">
                     {{log}}
                 </li>
             </v-card-text>

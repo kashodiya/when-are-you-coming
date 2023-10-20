@@ -2,8 +2,8 @@
 
 // sharedData is the storage area used for storing any data that more than 1 components needs
 let sharedData = Vue.reactive({
-    metaData: {         // Initialized in getMetaData()
-    }
+    name: 'xxx',
+    logs: ["Starting..."]
 })
 var socket;     //Initialized in the async block at the bottom this file
 
@@ -13,15 +13,19 @@ const Home = {
         return {
             latLng: {},
             plans: [],
-            logs: []
+            sharedData
+            // logs: []
         }
     },
     methods: {
+        log(msg){
+            this.sharedData.logs.unshift(msg);
+        },
         getTripPlan(stnId){
             if(stnId == 'UCTY'){
-                this.logs.unshift('Skipping plan from: ' + stnId);
+                this.log('Skipping plan from: ' + stnId);
             }else{
-                this.logs.unshift('Finding plas from: ' + stnId);
+                this.log('Finding plas from: ' + stnId);
                 planTrip(stnId, 'BERY', (plans) => {
                     console.log({plans});
                     this.plans.push(...plans);
@@ -30,34 +34,39 @@ const Home = {
         }
     },
     mounted() {
+        // this.$on('log', (data) => {
+        //     console.log(data);
+        // })        
+
     },
     created() {
-        this.logs.unshift('Getting lat long...')
+        this.log('Getting lat long...')
         getLatLng((latLng, error) => {
             if (!error) {
-                this.logs.unshift('Found lat long: ' + latLng.lat + ', ' + latLng.lng)
+                this.log('Found lat long: ' + latLng.lat + ', ' + latLng.lng)
                 this.latLng = latLng;
                 // let nextStationId, nearestStnId;
-                this.logs.unshift('Finding nearest and next station...')
+                this.log('Finding nearest and next station...');
                 const {nextStationId, nearestStnId} = findNearestStation(latLng.lat, latLng.lng);
                 console.log({nextStationId, nearestStnId});
                 this.getTripPlan(nextStationId);
                 this.getTripPlan(nearestStnId);
-                // this.logs.unshift('Finding plas from: ' + nextStationId);
+                // this.log('Finding plas from: ' + nextStationId);
                 // planTrip(nextStationId, 'BERY', (plans) => {
                 //     console.log({plans});
                 //     this.plans.push(...plans);
                 // });
-                // this.logs.unshift('Finding plas from: ' + nearestStnId);
+                // this.log('Finding plas from: ' + nearestStnId);
                 // planTrip(nearestStnId, 'BERY', (plans) => {
                 //     console.log({plans});
                 //     this.plans.push(...plans);
                 // });
             }else{
-                this.logs.unshift('ERROR: Error getting lat long:')
-                this.logs.unshift(error);
+                this.log('ERROR: Error getting lat long:')
+                this.log(error);
             }
         });
+
         console.log('Home created');
     }
 }
@@ -304,8 +313,10 @@ function initVue() {
     const vuetify = createVuetify();
     const app = createApp({
         el: '#app',
-        created() {
+        async created() {
             console.log('Vue is created.');
+            
+            await getData();
         }
     });
 
@@ -329,11 +340,16 @@ function initVue() {
 }
 
 async function getData() {
+    // vue.$emit('log', "TEST log")
+
     console.log('Getting data...');
+    sharedData.logs.unshift('Getting static data...');
+
     let route6Resp = await (await fetch('/route-6.json')).json();
     let stationsResp = await (await fetch('/stations.json')).json();
     let route6StationIds = route6Resp.root.routes.route.config.station
     let stations = stationsResp.root.stations.station;
+    sharedData.logs.unshift('Got stations static data.');
     console.log({route6StationIds, stations });
     sharedData.stations = stations;
     sharedData.route6StationIds = route6StationIds;
@@ -344,7 +360,7 @@ async function getData() {
 (async () => {
     initVue();
     // bart();
-    await getData();
+    // await getData();
 
     // console.log('Starting web-socket');
     // socket = io({
